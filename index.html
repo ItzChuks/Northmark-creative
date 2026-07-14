@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Northmark Creative — Make It Mean Something.</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="images/3.png" />
+    <style>
+        :root {
+            --navy: #0f3550;
+            --navy-deep: #0a2740;
+            --gold: #d9a544;
+            --cream: #faf8f4;
+            --ink: #2b2b28;
+            --muted: #726d64;
+            --hair: #e7e2d8;
+        }
+        * {
+            scroll-behavior: smooth;
+        }
+        body {
+            background: var(--cream);
+            color: var(--ink);
+            font-family: 'Manrope', sans-serif;
+            font-weight: 400;
+        }
+        h1,
+        h2,
+        h3,
+        .display {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+        }
+        .hero-headline {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+        }
+        .font-menu {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 500;
+        }
+        .font-btn {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 600;
+        }
+        .font-accent {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-weight: 400;
+        }
+        .accent-underline {
+            position: relative;
+        }
+        .accent-underline::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 36px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 2px;
+        }
+        .fold-divider {
+            position: relative;
+            height: 64px;
+            overflow: hidden;
+        }
+        .fold-divider svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* ---- NAVIGATION STYLES ---- */
+        .nav-link {
+            position: relative;
+            color: var(--navy);
+            opacity: 0.75;
+            font-weight: 500;
+            transition: opacity .25s ease, color .25s ease;
+            letter-spacing: 0.02em;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            padding: 0.25rem 0;
+        }
+        .nav-link:hover {
+            opacity: 1;
+            color: var(--navy);
+        }
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0%;
+            height: 2px;
+            background: var(--gold);
+            transition: width .35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            opacity: 1;
+            color: var(--navy);
+        }
+
+        /* Mobile nav link — larger, cleaner */
+        .mobile-nav-link {
+            display: block;
+            padding: 0.9rem 0.5rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            color: var(--navy);
+            border-bottom: 1px solid var(--hair);
+            transition: color .2s ease, padding-left .25s ease;
+            text-transform: uppercase;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .mobile-nav-link:last-child {
+            border-bottom: none;
+        }
+        .mobile-nav-link:hover,
+        .mobile-nav-link:focus {
+            color: var(--gold);
+            padding-left: 0.75rem;
+        }
+
+        /* ---- HAMBURGER ---- */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 28px;
+            height: 24px;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            padding: 0;
+            position: relative;
+            transition: transform 0.25s ease;
+        }
+        .hamburger:hover {
+            transform: scale(1.05);
+        }
+        .hamburger span {
+            display: block;
+            width: 26px;
+            height: 2.5px;
+            background: var(--navy);
+            border-radius: 3px;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-origin: center;
+        }
+        .hamburger.open span:nth-child(1) {
+            transform: translateY(7.5px) rotate(45deg);
+            width: 26px;
+        }
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .hamburger.open span:nth-child(3) {
+            transform: translateY(-7.5px) rotate(-45deg);
+            width: 26px;
+        }
+
+        /* ---- MOBILE MENU PANEL ---- */
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.35s ease, padding 0.35s ease;
+            opacity: 0;
+            padding: 0 1.5rem;
+            background: var(--cream);
+            border-top: 1px solid transparent;
+        }
+        #mobile-menu.open {
+            max-height: 600px;
+            opacity: 1;
+            padding: 0.5rem 1.5rem 1.25rem;
+            border-top-color: var(--hair);
+        }
+        #mobile-menu .menu-inner {
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+        }
+        #mobile-menu.open .menu-inner {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ---- BUTTONS ---- */
+        .btn-primary {
+            background: var(--navy);
+            color: var(--cream);
+            font-family: 'Manrope', sans-serif;
+            font-weight: 600;
+            transition: transform .25s ease, background .25s ease;
+        }
+        .btn-primary:hover {
+            background: var(--navy-deep);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1.5px solid var(--navy);
+            color: var(--navy);
+            font-family: 'Manrope', sans-serif;
+            font-weight: 600;
+            transition: all .25s ease;
+        }
+        .btn-outline:hover {
+            background: var(--navy);
+            color: var(--cream);
+            transform: translateY(-2px);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid var(--hair);
+            transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px -20px rgba(15, 53, 80, 0.25);
+            border-color: var(--gold);
+        }
+
+        .mark-clip {
+            clip-path: polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%);
+        }
+
+        .episode-row {
+            border-bottom: 1px solid var(--hair);
+        }
+        .episode-row:last-child {
+            border-bottom: none;
+        }
+
+        .social-link {
+            color: var(--cream);
+            opacity: 0.75;
+        }
+        .social-link:hover {
+            opacity: 1;
+            background: var(--gold);
+            border-color: var(--gold) !important;
+            color: var(--navy-deep);
+            transform: translateY(-2px);
+        }
+
+        .play-dot {
+            transition: transform .25s ease, background .25s ease;
+        }
+        .episode-row:hover .play-dot {
+            transform: scale(1.15);
+            background: var(--gold);
+        }
+
+        ::selection {
+            background: var(--gold);
+            color: var(--navy-deep);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal,
+            .btn-primary,
+            .btn-outline,
+            .card,
+            .nav-link::after,
+            #mobile-menu,
+            .hamburger span,
+            .mobile-nav-link {
+                transition: none !important;
+            }
+        }
+
+        input:focus,
+        textarea:focus,
+        button:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 3px;
+        }
+
+        /* ---- LOGO ---- */
+        .logo-mark {
+            filter: brightness(0) saturate(100%) drop-shadow(0 1.5px 2px rgba(0, 0, 0, 0.12));
+            transition: filter 0.3s ease, transform 0.3s ease;
+            flex-shrink: 0;
+            display: block;
+            width: auto;
+            height: 70px;
+        }
+        .logo-mark:hover {
+            filter: brightness(0) saturate(100%) drop-shadow(0 3px 8px rgba(0, 0, 0, 0.18));
+            transform: scale(1.03);
+        }
+
+        @media (min-width: 480px) {
+            .logo-mark {
+                height: 80px;
+            }
+        }
+        @media (min-width: 640px) {
+            .logo-mark {
+                height: 100px;
+            }
+        }
+        @media (min-width: 768px) {
+            .logo-mark {
+                height: 120px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .logo-mark {
+                height: 150px;
+            }
+        }
+        @media (min-width: 1280px) {
+            .logo-mark {
+                height: 180px;
+            }
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        @media (min-width: 640px) {
+            .logo-link {
+                gap: 8px;
+            }
+        }
+
+        /* ---- HEADER HEIGHTS ---- */
+        header {
+            transition: box-shadow 0.3s ease;
+        }
+        header.scrolled {
+            box-shadow: 0 4px 24px rgba(15, 53, 80, 0.06);
+        }
+
+        /* ---- RESPONSIVE NAV GAP ---- */
+        @media (min-width: 1024px) {
+            .desktop-nav {
+                gap: 1.75rem;
+            }
+        }
+        @media (min-width: 1280px) {
+            .desktop-nav {
+                gap: 2.5rem;
+            }
+        }
+
+        /* ---- UTILITY ---- */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ===== NAV ===== -->
+    <header class="fixed top-0 inset-x-0 z-50 bg-[--cream]/92 backdrop-blur-md border-b border-[--hair]/60 transition-shadow duration-300" id="site-header">
+        <div id="nav-bar" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36">
+
+            <!-- Logo -->
+            <a href="#" class="logo-link" aria-label="Northmark Creative — Home">
+                <img src="images/4.png" alt="Northmark Creative" class="logo-mark" loading="eager" />
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden lg:flex items-center desktop-nav text-xs font-medium tracking-wide" aria-label="Main navigation">
+                <a href="#film" class="nav-link">Film + Documentary</a>
+                <a href="#events" class="nav-link">Events + Culture</a>
+                <a href="#brand" class="nav-link">Brand</a>
+                <a href="#podcast" class="nav-link">Podcast</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+
+            <!-- Hamburger -->
+            <button id="menu-btn" class="hamburger lg:hidden" aria-label="Toggle menu" aria-expanded="false" type="button">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="lg:hidden" role="navigation" aria-label="Mobile navigation">
+            <div class="menu-inner">
+                <div class="flex flex-col">
+                    <a href="#film" class="mobile-nav-link">Film + Documentary</a>
+                    <a href="#events" class="mobile-nav-link">Events + Culture</a>
+                    <a href="#brand" class="mobile-nav-link">Brand</a>
+                    <a href="#podcast" class="mobile-nav-link">Podcast</a>
+                    <a href="#about" class="mobile-nav-link">About</a>
+                    <a href="#contact" class="mobile-nav-link">Contact</a>
+                </div>
+                
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section id="top" class="pt-28 sm:pt-32 md:pt-40 lg:pt-48 xl:pt-56 pb-28 px-4 sm:px-6 lg:px-10">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-10 items-start">
+            <div class="lg:col-span-8 reveal">
+                <p class="uppercase tracking-[0.25em] text-xs font-medium text-[--gold] mb-6">Studio for film, culture &amp; brand</p>
+                <h1 class="hero-headline text-5xl sm:text-6xl lg:text-7xl leading-[1.05] text-[--navy]">
+                    Make It Mean<br />Something.
+                </h1>
+                <p class="mt-7 font-normal text-lg sm:text-xl text-[--muted] max-w-xl" style="font-family:'Manrope',sans-serif;">
+                    For a world drowning in content, we build stories that mean something.
+                </p>
+                <div class="mt-10 flex flex-wrap gap-4">
+                    <a href="#podcast" class="btn-primary px-7 py-3.5 rounded-md text-sm font-semibold tracking-wide">View Community</a>
+                    <a href="#contact" class="btn-outline px-7 py-3.5 rounded-md text-sm font-semibold tracking-wide">Start a project</a>
+                </div>
+            </div>
+            <div class="lg:col-span-4 reveal" style="transition-delay:.15s">
+                <div class="mark-clip bg-[--gold] aspect-[4/5] relative overflow-hidden flex items-end p-8">
+                    <img src="images/3.png" alt="Behind the scenes on a Northmark shoot" class="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-60" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-[--navy] via-[--navy]/50 to-[--navy]/10"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="fold-divider">
+        <svg viewBox="0 0 1200 64" preserveAspectRatio="none"><polygon points="0,0 1200,0 1200,20 600,64 0,20" fill="#0f3550" opacity="0.05"/></svg>
+    </div>
+
+    <!-- ===== FILM + DOCUMENTARY ===== -->
+    <section id="film" class="py-24 px-4 sm:px-6 lg:px-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="reveal max-w-2xl">
+                <p class="font-accent text-[--gold] text-xl mb-2">— the long take</p>
+                <h2 class="display accent-underline inline-block text-3xl sm:text-4xl text-[--navy] pb-3">Film + Documentary</h2>
+                <p class="mt-6 text-[--muted] text-lg">Long-form nonfiction that follows real people through real change — shot with patience, cut with structure.</p>
+            </div>
+
+            <div class="mt-14 grid md:grid-cols-3 gap-6">
+                <div class="card reveal rounded-lg p-7" style="transition-delay:.05s">
+                    <span class="text-xs uppercase tracking-widest text-[--gold] font-semibold">Feature</span>
+                    <h3 class="display text-xl mt-3 text-[--navy]">Round the Table</h3>
+                    <p class="mt-3 text-sm text-[--muted]">A documentary series sitting culture-shapers across from each other, no script, one long take.</p>
+                </div>
+                <div class="card reveal rounded-lg p-7" style="transition-delay:.15s">
+                    <span class="text-xs uppercase tracking-widest text-[--gold] font-semibold">Short film</span>
+                    <h3 class="display text-xl mt-3 text-[--navy]">Keepers of the Block</h3>
+                    <p class="mt-3 text-sm text-[--muted]">Portraits of the small businesses holding a neighborhood's identity together.</p>
+                </div>
+                <div class="card reveal rounded-lg p-7" style="transition-delay:.25s">
+                    <span class="text-xs uppercase tracking-widest text-[--gold] font-semibold">Series</span>
+                    <h3 class="display text-xl mt-3 text-[--navy]">Field Notes</h3>
+                    <p class="font-accent mt-3 text-base text-[--muted]">Short-form dispatches from the road, built for the brands sponsoring the journey.</p>
+                </div>
+            </div>
+
+            <div class="mt-12 reveal" style="transition-delay:.3s">
+                <a href="film-documentary.html" class="btn-primary inline-block px-7 py-3.5 rounded-md text-sm font-semibold tracking-wide">See all Film + Documentary work</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="fold-divider">
+        <svg viewBox="0 0 1200 64" preserveAspectRatio="none"><polygon points="0,64 1200,64 1200,44 600,0 0,44" fill="#d9a544" opacity="0.08"/></svg>
+    </div>
+
+    <!-- ===== EVENTS + CULTURE ===== -->
+    <section id="events" class="py-24 px-4 sm:px-6 lg:px-10 bg-white">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12">
+            <div class="lg:col-span-5 reveal">
+                <p class="font-accent text-[--gold] text-xl mb-2">— the room, remembered</p>
+                <h2 class="display accent-underline inline-block text-3xl sm:text-4xl text-[--navy] pb-3">Events + Culture</h2>
+                <p class="mt-6 text-[--muted] text-lg">We document the rooms where culture actually happens — and design the ones that don't exist yet.</p>
+            </div>
+            <div class="lg:col-span-7 grid sm:grid-cols-2 gap-6">
+                <div class="reveal border-l-2 border-[--gold] pl-5 py-1" style="transition-delay:.05s">
+                    <h3 class="font-semibold text-[--navy]">Coverage</h3>
+                    <p class="mt-2 text-sm text-[--muted]">Live capture of festivals, launches and gatherings, edited same week.</p>
+                </div>
+                <div class="reveal border-l-2 border-[--gold] pl-5 py-1" style="transition-delay:.12s">
+                    <h3 class="font-semibold text-[--navy]">Programming</h3>
+                    <p class="mt-2 text-sm text-[--muted]">Curating panels and experiences that earn an audience's evening.</p>
+                </div>
+                <div class="reveal border-l-2 border-[--gold] pl-5 py-1" style="transition-delay:.19s">
+                    <h3 class="font-semibold text-[--navy]">Community</h3>
+                    <p class="mt-2 text-sm text-[--muted]">Building the recurring rituals that keep a scene coming back.</p>
+                </div>
+                <div class="reveal border-l-2 border-[--gold] pl-5 py-1" style="transition-delay:.26s">
+                    <h3 class="font-semibold text-[--navy]">Archive</h3>
+                    <p class="mt-2 text-sm text-[--muted]">Every event becomes a document — footage, photos, and a written record.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== BRAND ===== -->
+    <section id="brand" class="py-24 px-4 sm:px-6 lg:px-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="reveal max-w-2xl">
+                <p class="font-accent text-[--gold] text-xl mb-2">— a system, not a mood board</p>
+                <h2 class="display accent-underline inline-block text-3xl sm:text-4xl text-[--navy] pb-3">Brand</h2>
+                <p class="mt-6 text-[--muted] text-lg">System-driven storytelling for culture-led brands. We build the frameworks, then tell the stories inside them.</p>
+            </div>
+
+            <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card reveal rounded-lg p-6 text-center" style="transition-delay:.05s">
+                    <p class="display text-[--navy]">Identity systems</p>
+                    <p class="mt-2 text-xs text-[--muted]">Marks, type, color systems</p>
+                </div>
+                <div class="card reveal rounded-lg p-6 text-center" style="transition-delay:.12s">
+                    <p class="display text-[--navy]">Strategy + Voice</p>
+                    <p class="mt-2 text-xs text-[--muted]">Positioning &amp; voice</p>
+                </div>
+                <div class="card reveal rounded-lg p-6 text-center" style="transition-delay:.19s">
+                    <p class="display text-[--navy]">Campaign systems</p>
+                    <p class="mt-2 text-xs text-[--muted]">Launch films &amp; assets</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="fold-divider">
+        <svg viewBox="0 0 1200 64" preserveAspectRatio="none"><polygon points="0,0 1200,0 1200,20 600,64 0,20" fill="#0f3550" opacity="0.05"/></svg>
+    </div>
+
+    <!-- ===== PODCAST ===== -->
+    <section id="podcast" class="py-24 px-4 sm:px-6 lg:px-10 bg-white">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12">
+            <div class="lg:col-span-4 reveal">
+                <h2 class="display accent-underline inline-block text-3xl sm:text-4xl text-[--navy] pb-3">Podcast</h2>
+                <p class="font-accent mt-6 text-[--navy] text-2xl leading-snug">Round the Table, in audio — unfiltered conversations with the people building culture.</p>
+                <div class="mt-8 flex gap-3 flex-wrap">
+                    <a href="#" class="btn-outline px-5 py-2.5 rounded-md text-xs font-semibold tracking-wide">Apple Podcasts</a>
+                    <a href="#" class="btn-outline px-5 py-2.5 rounded-md text-xs font-semibold tracking-wide">Spotify</a>
+                </div>
+            </div>
+
+            <div class="lg:col-span-8 reveal" style="transition-delay:.1s">
+                <div class="border border-[--hair] rounded-lg overflow-hidden">
+                    <div class="episode-row flex items-center gap-3 sm:gap-5 p-4 sm:p-5">
+                        <div class="play-dot w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[--navy] flex items-center justify-center shrink-0">
+                            <svg width="11" height="11" viewBox="0 0 10 12" fill="var(--cream)"><path d="M0 0L10 6L0 12V0Z"/></svg>
+                        </div>
+                        <div class="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5 sm:gap-3">
+                            <p class="font-medium text-[--navy] text-sm sm:text-base leading-snug">Ep. 12 — Building a Scene from Scratch</p>
+                            <p class="text-xs text-[--muted] shrink-0">42 min</p>
+                        </div>
+                    </div>
+                    <div class="episode-row flex items-center gap-3 sm:gap-5 p-4 sm:p-5">
+                        <div class="play-dot w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[--navy] flex items-center justify-center shrink-0">
+                            <svg width="11" height="11" viewBox="0 0 10 12" fill="var(--cream)"><path d="M0 0L10 6L0 12V0Z"/></svg>
+                        </div>
+                        <div class="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5 sm:gap-3">
+                            <p class="font-medium text-[--navy] text-sm sm:text-base leading-snug">Ep. 11 — The Business of Meaning</p>
+                            <p class="text-xs text-[--muted] shrink-0">38 min</p>
+                        </div>
+                    </div>
+                    <div class="episode-row flex items-center gap-3 sm:gap-5 p-4 sm:p-5">
+                        <div class="play-dot w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[--navy] flex items-center justify-center shrink-0">
+                            <svg width="11" height="11" viewBox="0 0 10 12" fill="var(--cream)"><path d="M0 0L10 6L0 12V0Z"/></svg>
+                        </div>
+                        <div class="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5 sm:gap-3">
+                            <p class="font-medium text-[--navy] text-sm sm:text-base leading-snug">Ep. 10 — Documentary as Archive</p>
+                            <p class="text-xs text-[--muted] shrink-0">51 min</p>
+                        </div>
+                    </div>
+                    <div class="episode-row flex items-center gap-3 sm:gap-5 p-4 sm:p-5">
+                        <div class="play-dot w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[--navy] flex items-center justify-center shrink-0">
+                            <svg width="11" height="11" viewBox="0 0 10 12" fill="var(--cream)"><path d="M0 0L10 6L0 12V0Z"/></svg>
+                        </div>
+                        <div class="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5 sm:gap-3">
+                            <p class="font-medium text-[--navy] text-sm sm:text-base leading-snug">Ep. 9 — Designing for a Room, Not a Feed</p>
+                            <p class="text-xs text-[--muted] shrink-0">33 min</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="py-24 px-4 sm:px-6 lg:px-10">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-7 reveal">
+                <p class="font-accent text-[--gold] text-xl mb-2">— notes from the studio</p>
+                <h2 class="display accent-underline inline-block text-3xl sm:text-4xl text-[--navy] pb-3">About</h2>
+                <p class="mt-6 text-[--muted] text-lg leading-relaxed">
+                    Northmark Creative is a small studio working at the edge of film, brand, and culture. We start by understanding the system underneath a story — the audience, the platform, the reason it matters — then build the film, the identity, or the event on top of it.
+                </p>
+                <p class="mt-5 text-[--muted] leading-relaxed">
+                    No department silos. The people who write the brand strategy are in the edit room, and the people behind the camera sit in on positioning calls. One point of view, carried all the way through.
+                </p>
+            </div>
+            <div class="lg:col-span-5 reveal grid grid-cols-2 gap-6" style="transition-delay:.1s">
+                <div>
+                    <p class="display text-4xl text-[--navy]">40+</p>
+                    <p class="text-xs uppercase tracking-widest text-[--muted] mt-2">Projects delivered</p>
+                </div>
+                <div>
+                    <p class="display text-4xl text-[--navy]">12</p>
+                    <p class="text-xs uppercase tracking-widest text-[--muted] mt-2">Podcast episodes</p>
+                </div>
+                <div>
+                    <p class="display text-4xl text-[--navy]">6yrs</p>
+                    <p class="text-xs uppercase tracking-widest text-[--muted] mt-2">In practice</p>
+                </div>
+                <div>
+                    <p class="display text-4xl text-[--navy]">3</p>
+                    <p class="text-xs uppercase tracking-widest text-[--muted] mt-2">Core disciplines</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="fold-divider">
+        <svg viewBox="0 0 1200 64" preserveAspectRatio="none"><polygon points="0,64 1200,64 1200,44 600,0 0,44" fill="#d9a544" opacity="0.08"/></svg>
+    </div>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" class="py-24 px-4 sm:px-6 lg:px-10 bg-[--navy]">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12">
+            <div class="lg:col-span-5 reveal">
+                <h2 class="display text-3xl sm:text-4xl text-[--cream] pb-3">Let's make something mean something.</h2>
+                <p style="color: white;" class="mt-4 text-[--cream]/70">Tell us about the project. We reply within two business days.</p>
+                <div class="mt-8 text-sm text-[--cream]/80 space-y-2">
+                    <p style="color: white;">hello@northmarkcreative.com</p>
+                    <p style="color: white;">Lagos, Nigeria</p>
+                </div>
+
+                <div class="mt-8 flex items-center gap-4">
+                    <a href="#" aria-label="Instagram" class="social-link w-10 h-10 rounded-full border border-[--cream]/25 flex items-center justify-center transition">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+                    </a>
+                    <a href="#" aria-label="X (Twitter)" class="social-link w-10 h-10 rounded-full border border-[--cream]/25 flex items-center justify-center transition">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.8l-5.3-6.9L4.8 22H1.6l8.2-9.3L1 2h7l4.8 6.3L18.9 2Zm-1.2 18h1.9L7.4 4H5.4l12.3 16Z"/></svg>
+                    </a>
+                    <a href="#" aria-label="YouTube" class="social-link w-10 h-10 rounded-full border border-[--cream]/25 flex items-center justify-center transition">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="3.5"/><path d="M10.5 9.5l5 2.5-5 2.5v-5Z" fill="currentColor" stroke="none"/></svg>
+                    </a>
+                    <a href="#" aria-label="LinkedIn" class="social-link w-10 h-10 rounded-full border border-[--cream]/25 flex items-center justify-center transition">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V21h-4V9Z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <form class="lg:col-span-7 reveal grid sm:grid-cols-2 gap-5" style="transition-delay:.1s" onsubmit="event.preventDefault(); this.reset(); document.getElementById('form-note').classList.remove('hidden');">
+                <input type="text" required placeholder="Name" class="sm:col-span-1 bg-transparent border border-[--cream]/25 rounded-md px-4 py-3 text-[--cream] placeholder-[--cream]/50 text-sm">
+                <input type="email" required placeholder="Email" class="sm:col-span-1 bg-transparent border border-[--cream]/25 rounded-md px-4 py-3 text-[--cream] placeholder-[--cream]/50 text-sm">
+                <input type="text" placeholder="Project type" class="sm:col-span-2 bg-transparent border border-[--cream]/25 rounded-md px-4 py-3 text-[--cream] placeholder-[--cream]/50 text-sm">
+                <textarea required placeholder="Tell us a bit about it" rows="4" class="sm:col-span-2 bg-transparent border border-[--cream]/25 rounded-md px-4 py-3 text-[--cream] placeholder-[--cream]/50 text-sm resize-none"></textarea>
+                <button type="submit" class="font-btn sm:col-span-2 bg-[--gold] text-[--navy-deep] rounded-md px-6 py-3.5 text-sm tracking-wide hover:brightness-95 transition w-fit">Send message</button>
+                <p id="form-note" class="hidden sm:col-span-2 text-xs text-[--cream]/60">Thanks — we'll be in touch shortly.</p>
+            </form>
+        </div>
+    </section>
+
+    
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ---- Mobile Menu ----
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            let menuOpen = false;
+
+            function toggleMenu(open) {
+                menuOpen = (open !== undefined) ? open : !menuOpen;
+                mobileMenu.classList.toggle('open', menuOpen);
+                menuBtn.classList.toggle('open', menuOpen);
+                menuBtn.setAttribute('aria-expanded', menuOpen);
+                // Lock body scroll when menu is open
+                document.body.style.overflow = menuOpen ? 'hidden' : '';
+            }
+
+            menuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleMenu();
+            });
+
+            // Close on link click
+            document.querySelectorAll('#mobile-menu a').forEach(function(a) {
+                a.addEventListener('click', function() {
+                    if (menuOpen) toggleMenu(false);
+                });
+            });
+
+            // Close on outside click (click on backdrop)
+            document.addEventListener('click', function(e) {
+                if (menuOpen) {
+                    const header = document.querySelector('header');
+                    if (!header.contains(e.target)) {
+                        toggleMenu(false);
+                    }
+                }
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && menuOpen) {
+                    toggleMenu(false);
+                    menuBtn.focus();
+                }
+            });
+
+            // ---- Scroll shadow ----
+            const header = document.getElementById('site-header');
+            let lastScroll = 0;
+            window.addEventListener('scroll', function() {
+                const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                if (currentScroll > 20) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                lastScroll = currentScroll;
+            }, { passive: true });
+
+            // ---- Scroll Reveal ----
+            const revealEls = document.querySelectorAll('.reveal');
+            const io = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -20px 0px' });
+            revealEls.forEach(function(el) { io.observe(el); });
+
+            // ---- Active nav link on scroll ----
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+            function updateActiveNav() {
+                let currentId = '';
+                const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                const offset = 120;
+
+                sections.forEach(function(section) {
+                    const top = section.offsetTop - offset;
+                    const bottom = top + section.offsetHeight;
+                    if (scrollY >= top && scrollY < bottom) {
+                        currentId = section.id;
+                    }
+                });
+
+                navLinks.forEach(function(link) {
+                    const href = link.getAttribute('href');
+                    link.classList.toggle('active', href === '#' + currentId);
+                });
+                mobileNavLinks.forEach(function(link) {
+                    const href = link.getAttribute('href');
+                    link.classList.toggle('active', href === '#' + currentId);
+                });
+            }
+
+            // Throttled scroll listener for active nav
+            let ticking = false;
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        updateActiveNav();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            // Run once on load
+            setTimeout(updateActiveNav, 100);
+
+            // ---- Smooth anchor scroll (progressive enhancement) ----
+            document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        e.preventDefault();
+                        const navBar = document.getElementById('nav-bar');
+                        const headerHeight = navBar ? navBar.offsetHeight : header.offsetHeight;
+                        const top = targetEl.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+                        window.scrollTo({ top: top, behavior: 'smooth' });
+                    }
+                });
+            });
+
+        })();
+    </script>
+
+</body>
+</html>
